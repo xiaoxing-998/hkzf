@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Carousel } from 'antd-mobile';
 
-import axios from 'axios'
+import axios,{BASE_URL} from '../../utils/axios'
 
 class Index extends Component {
     state = {
@@ -17,7 +17,7 @@ class Index extends Component {
     // 获取轮播图数据
 
     getSwiper = async () => {
-        const res = await axios.get('http://api-haoke-dev.itheima.net/home/swiper')
+        const res = await axios.get('/home/swiper');
         const { body, status } = res.data;
         if (status === 200) {
             this.setState({
@@ -40,7 +40,7 @@ class Index extends Component {
                             style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight, background: '#787373' }}
                         >
                             <img
-                                src={`http://api-haoke-dev.itheima.net${val.imgSrc}`}
+                                src={`${BASE_URL}${val.imgSrc}`}
                                 alt=""
                                 style={{ width: '100%', verticalAlign: 'top' }}
                                 onLoad={() => {
