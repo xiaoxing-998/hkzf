@@ -1,3 +1,4 @@
+// 默认首页
 import React, { Component } from 'react';
 import { Carousel } from 'antd-mobile';
 
@@ -7,8 +8,8 @@ class Index extends Component {
     state = {
         // 轮播图数据
         swiper: [],
-        // 轮播图高度
-        imgHeight: 176,
+        // 轮播图高度  占位
+        imgHeight: 212,
     }
     //  创建时   组件挂载 完成DOM渲染后 用于发送网络请求以及Dom操作
     componentDidMount() {
@@ -17,11 +18,10 @@ class Index extends Component {
     // 获取轮播图数据
 
     getSwiper = async () => {
-        const res = await axios.get('/home/swiper');
-        const { body, status } = res.data;
+        const { data, status }  = await axios.get('/home/swiper');
         if (status === 200) {
             this.setState({
-                swiper: body
+                swiper: data
             })
         }
     }

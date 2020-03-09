@@ -16,11 +16,17 @@ request.interceptors.request.use(function (config) {
     return Promise.reject(error);
 });
 
-// 响应拦截器
+// 响应拦截器  请求成功后
 request.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    return response;
+    const {status,body,description}= response.data;
+    const data = {
+        status,
+        data:body,
+        description
+    }
+    return data;
 }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
