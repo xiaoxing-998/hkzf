@@ -11,6 +11,8 @@ class Index extends Component {
         swiper: [],
         // 轮播图高度  占位
         imgHeight: 212,
+        // 调接口 数据未返回时 自动播放失效
+        autoPlay:false
     }
     //  创建时   组件挂载 完成DOM渲染后 用于发送网络请求以及Dom操作
     componentDidMount() {
@@ -21,8 +23,14 @@ class Index extends Component {
     getSwiper = async () => {
         const { data, status }  = await getSwiper();
         if (status === 200) {
+            // setState()是异步
             this.setState({
-                swiper: data
+                swiper: data,
+            },()=>{
+                // 有数据后 设置自动播放
+                this.setState({
+                    autoPlay:true
+                })
             })
         }
     }
@@ -30,7 +38,7 @@ class Index extends Component {
         return (
             <div>
                 <Carousel
-                    autoplay//自动播放
+                    autoplay={this.state.autoPlay}//自动播放
                     infinite//循环播放
                 >
                     {/* 数据渲染 */}
