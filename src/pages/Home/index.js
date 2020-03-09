@@ -16,7 +16,7 @@ class Home extends Component {
 
     // tab状态数据
     state = {
-        selectedTab: 'redTab',//选中状态
+        selectedTab: this.props.location.pathname,//设置默认选中状态
     }
 
     render() {
@@ -41,11 +41,13 @@ class Home extends Component {
                             // 选中icon
                             selectedIcon={<i className="iconfont icon-ind" />}
                             // 是否选中 返回布尔值
-                            selected={this.state.selectedTab === 'blueTab'}
+                            selected={this.state.selectedTab === '/home'}
                             // bar 点击触发函数   设置点击状态
                             onPress={() => {
+                                // 编程式导航
+                                this.props.history.push('/home')
                                 this.setState({
-                                    selectedTab: 'blueTab',
+                                    selectedTab: '/home',
                                 });
                             }}
                         >
@@ -55,10 +57,11 @@ class Home extends Component {
                             selectedIcon={<i className="iconfont icon-findHouse" />}
                             title="找房"
                             key="Koubei"
-                            selected={this.state.selectedTab === 'redTab'}
+                            selected={this.state.selectedTab === '/home/house'}
                             onPress={() => {
+                                this.props.history.push('/home/house')
                                 this.setState({
-                                    selectedTab: 'redTab',
+                                    selectedTab: '/home/house',
                                 });
                             }}
                         >
@@ -68,10 +71,11 @@ class Home extends Component {
                             selectedIcon={<i className="iconfont icon-my" />}
                             title="我的"
                             key="Friend"
-                            selected={this.state.selectedTab === 'greenTab'}
+                            selected={this.state.selectedTab === '/home/profile'}
                             onPress={() => {
+                                this.props.history.push('/home/profile')
                                 this.setState({
-                                    selectedTab: 'greenTab',
+                                    selectedTab: '/home/profile',
                                 });
                             }}
                         >
