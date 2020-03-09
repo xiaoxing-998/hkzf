@@ -1,8 +1,12 @@
 // 入口文件
 import React from 'react';
 import ReactDOM from 'react-dom';
+// 全局样式
 import './index.css';
-// import 'antd-mobile/dist/antd-mobile.css'; //ant-mobile组件库样式
+// 字体图标样式
+import './assets/fonts/iconfont.css'
+
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 

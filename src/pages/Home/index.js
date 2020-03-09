@@ -9,12 +9,14 @@ import Index from '../Index';
 import House from '../House';
 import Profile from '../Profile';
 
+// 引入局部样式
+import './index.css'
+
 class Home extends Component {
 
     // tab状态数据
     state = {
         selectedTab: 'redTab',//选中状态
-        fullScreen: true//是否满屏
     }
 
     render() {
@@ -25,7 +27,7 @@ class Home extends Component {
                 <Route path='/home/house' component={House} />
                 <Route path='/home/profile' component={Profile} />
                 {/* 全局导航 */}
-                <div style={this.state.fullScreen ? { position: 'fixed', height: '100%', width: '100%', top: 0 } : { height: 400 }}>
+                <div className="tabBox">
                     <TabBar
                         unselectedTintColor="#949494"
                         tintColor="#33A3F4"
@@ -34,20 +36,10 @@ class Home extends Component {
                         <TabBar.Item
                             title="首页"
                             key="Life"
-                            icon={<div style={{
-                                width: '22px',
-                                height: '22px',
-                                background: 'url(https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg) center center /  21px 21px no-repeat'
-                            }}
-                            />
-                            }
-                            selectedIcon={<div style={{
-                                width: '22px',
-                                height: '22px',
-                                background: 'url(https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg) center center /  21px 21px no-repeat'
-                            }}
-                            />
-                            }
+                            // 默认icon
+                            icon={<i className="iconfont icon-ind" />}
+                            // 选中icon
+                            selectedIcon={<i className="iconfont icon-ind" />}
                             // 是否选中 返回布尔值
                             selected={this.state.selectedTab === 'blueTab'}
                             // bar 点击触发函数   设置点击状态
@@ -59,22 +51,8 @@ class Home extends Component {
                         >
                         </TabBar.Item>
                         <TabBar.Item
-                            icon={
-                                <div style={{
-                                    width: '22px',
-                                    height: '22px',
-                                    background: 'url(https://gw.alipayobjects.com/zos/rmsportal/BTSsmHkPsQSPTktcXyTV.svg) center center /  21px 21px no-repeat'
-                                }}
-                                />
-                            }
-                            selectedIcon={
-                                <div style={{
-                                    width: '22px',
-                                    height: '22px',
-                                    background: 'url(https://gw.alipayobjects.com/zos/rmsportal/ekLecvKBnRazVLXbWOnE.svg) center center /  21px 21px no-repeat'
-                                }}
-                                />
-                            }
+                            icon={<i className="iconfont icon-findHouse" />}
+                            selectedIcon={<i className="iconfont icon-findHouse" />}
                             title="找房"
                             key="Koubei"
                             selected={this.state.selectedTab === 'redTab'}
@@ -86,22 +64,8 @@ class Home extends Component {
                         >
                         </TabBar.Item>
                         <TabBar.Item
-                            icon={
-                                <div style={{
-                                    width: '22px',
-                                    height: '22px',
-                                    background: 'url(https://zos.alipayobjects.com/rmsportal/psUFoAMjkCcjqtUCNPxB.svg) center center /  21px 21px no-repeat'
-                                }}
-                                />
-                            }
-                            selectedIcon={
-                                <div style={{
-                                    width: '22px',
-                                    height: '22px',
-                                    background: 'url(https://zos.alipayobjects.com/rmsportal/IIRLrXXrFAhXVdhMWgUI.svg) center center /  21px 21px no-repeat'
-                                }}
-                                />
-                            }
+                            icon={<i className="iconfont icon-my" />}
+                            selectedIcon={<i className="iconfont icon-my" />}
                             title="我的"
                             key="Friend"
                             selected={this.state.selectedTab === 'greenTab'}
