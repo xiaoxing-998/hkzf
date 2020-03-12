@@ -10,7 +10,7 @@ import House from '../House';
 import Profile from '../Profile';
 
 // 引入局部样式
-import './index.css'
+import './index.scss'
 
 // 引入TabBar items 数据
 import tabItems from '../../utils/tabBar_config'

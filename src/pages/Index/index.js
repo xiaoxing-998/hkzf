@@ -1,11 +1,11 @@
 // 默认首页
 import React, { Component } from 'react';
-import { Carousel, Flex } from 'antd-mobile';
+import { Carousel, Flex, Grid } from 'antd-mobile';
 
 import { BASE_URL } from '../../utils/axios';
-import { getSwiper } from '../../utils/api/home'
+import { getSwiper, getGroups } from '../../utils/api/home'
 
-import './index.css'
+import './index.scss'
 
 // 引入栏目导航数据
 import navItems from '../../utils/nav_config'
@@ -18,11 +18,14 @@ class Index extends Component {
         // 轮播图高度  占位
         imgHeight: 212,
         // 调接口 数据未返回时 自动播放失效
-        autoPlay: false
+        autoPlay: false,
+        // 宫格数据
+        grid: []
     }
     //  创建时   组件挂载 完成DOM渲染后 用于发送网络请求以及Dom操作
     componentDidMount() {
         this.getSwiper();
+        this.getGroups();
     }
 
     // 获取轮播图数据
@@ -37,6 +40,16 @@ class Index extends Component {
                 this.setState({
                     autoPlay: true
                 })
+            })
+        }
+    }
+
+    // 获取租房小组数据
+    getGroups = async () => {
+        const { status, data } = await getGroups();
+        if (status === 200) {
+            this.setState({
+                grid: data
             })
         }
     }
@@ -80,6 +93,39 @@ class Index extends Component {
             })
         )
     }
+    // 渲染租房小组
+    renderGroups = () => {
+        return (
+            <div>
+                {/* 标题 */}
+                <Flex className='group-title' justify='between'>
+                    <h3>租房小组</h3>
+                    <span>更多</span>
+                </Flex>
+                {/* 宫格布局*/}
+                {/* 宫格数据源 */}
+                <Grid data={this.state.grid}
+                    // 宫格列数
+                    columnNum={2}
+                    // 取消边框
+                    hasLine={false}
+                    // 取消固定正方形
+                    square={false}
+                    // 宫格内容
+                    renderItem={item => (
+                        <Flex className='grid-item' justify='between'>
+                            <div className="desc">
+                                <h3>{item.title}</h3>
+                                <p>{item.desc}</p>
+                            </div>
+                            <img src={`${BASE_URL}${item.imgSrc}`} alt="" />
+                        </Flex>
+                    )}
+                />
+            </div>
+
+        )
+    }
     render() {
         return (
             <div>
@@ -95,7 +141,12 @@ class Index extends Component {
                 <Flex className='nav'>
                     {this.renderNavs()}
                 </Flex>
-
+                {/* 租房小组start */}
+                <div className="group">
+                    {this.renderGroups()}
+                </div>
+                {/* 最新资讯start */}
+                
             </div>
         );
     }
