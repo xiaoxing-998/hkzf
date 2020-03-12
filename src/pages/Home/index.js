@@ -64,10 +64,7 @@ class Home extends Component {
                         tintColor="#33A3F4"
                         barTintColor="white"
                     >
-                        {
-                            this.renderContent()
-                        }
-
+                        {this.renderContent()}
                     </TabBar>
                 </div>
 
