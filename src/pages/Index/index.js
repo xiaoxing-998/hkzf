@@ -1,9 +1,9 @@
 // 默认首页
 import React, { Component } from 'react';
-import { Carousel, Flex, Grid } from 'antd-mobile';
+import { Carousel, Flex, Grid, WingBlank } from 'antd-mobile';
 
 import { BASE_URL } from '../../utils/axios';
-import { getSwiper, getGroups } from '../../utils/api/home'
+import { getSwiper, getGroups, getNews } from '../../utils/api/home'
 
 import './index.scss'
 
@@ -20,12 +20,16 @@ class Index extends Component {
         // 调接口 数据未返回时 自动播放失效
         autoPlay: false,
         // 宫格数据
-        grid: []
+        grid: [],
+        // 资讯数据
+        news: []
+
     }
     //  创建时   组件挂载 完成DOM渲染后 用于发送网络请求以及Dom操作
     componentDidMount() {
         this.getSwiper();
         this.getGroups();
+        this.getNews();
     }
 
     // 获取轮播图数据
@@ -52,6 +56,16 @@ class Index extends Component {
                 grid: data
             })
         }
+    }
+
+    // 获取最新资讯数据
+    getNews = async () => {
+        const { status, data } = await getNews({ area: 'AREA|88cff55c-aaa4-e2e0' });
+        status === 200 && this.setState
+            // if简写
+            ({
+                news: data
+            })
     }
 
     // 渲染轮播图
@@ -123,7 +137,26 @@ class Index extends Component {
                     )}
                 />
             </div>
-
+        )
+    }
+    // 渲染最新资讯
+    renderNews = () => {
+        return (
+            this.state.news.map(item => (
+                <div className='news-item' key={item.id}>
+                    <div className="imgwrap">
+                        <img className='img'
+                            src={`${BASE_URL}${item.imgSrc}`} alt="" />
+                    </div>
+                    <Flex className='content' direction='column' justify='between'>
+                        <h3 className="title">{item.title}</h3>
+                        <Flex className='info' justify='between'>
+                            <span>{item.from}</span>
+                            <span>{item.date}</span>
+                        </Flex>
+                    </Flex>
+                </div>
+            ))
         )
     }
     render() {
@@ -146,7 +179,13 @@ class Index extends Component {
                     {this.renderGroups()}
                 </div>
                 {/* 最新资讯start */}
-                
+                <div className="news">
+                    <h3 className="group-title">最新资讯</h3>
+                    <WingBlank size='md'>
+                        {this.renderNews()}
+                    </WingBlank>
+
+                </div>
             </div>
         );
     }

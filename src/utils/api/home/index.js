@@ -8,8 +8,15 @@ export function getSwiper() {
 }
 // 获取租房小组数据
 export function getGroups(area = 'AREA%7C88cff55c-aaa4-e2e0') {
-
     return axios.get('/home/groups', {
+        params: {
+            area
+        }
+    })
+}
+// 获取资讯数据
+export function getNews(area) {
+    return axios.get('/home/news', {
         params: {
             area
         }
