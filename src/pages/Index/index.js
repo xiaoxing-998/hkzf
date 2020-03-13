@@ -1,6 +1,6 @@
 // 默认首页
 import React, { Component } from 'react';
-import { Carousel, Flex, Grid, WingBlank } from 'antd-mobile';
+import { Carousel, Flex, Grid, WingBlank, SearchBar } from 'antd-mobile';
 
 import { BASE_URL } from '../../utils/axios';
 import { getSwiper, getGroups, getNews } from '../../utils/api/home'
@@ -22,7 +22,9 @@ class Index extends Component {
         // 租房小组宫格数据
         grid: [],
         // 资讯数据
-        news: []
+        news: [],
+        // 顶部搜索关键词
+        keyword: ''
 
     }
     //  创建时   组件挂载 完成DOM渲染后 用于发送网络请求以及Dom操作
@@ -176,9 +178,34 @@ class Index extends Component {
             ))
         )
     }
+    // 渲染顶部导航
+    renderTopNav = () => {
+        const { push } = this.props.history;
+        return (
+            <Flex justify='around' className='topNav'>
+                <div className="searchBox">
+                    <div className="city" onClick={() => {
+                        this.props.history.push('/cityList')
+                    }}>
+                        北京 <i className="iconfont icon-arrow" />
+                    </div>
+                    <SearchBar
+                        value={this.state.keyword}
+                        onChange={(val) => { this.setState({ keyword: val }) }}
+                        placeholder='请输入小区地址'
+                    />
+                </div>
+                <div className="map" onClick={() => push('/map')}>
+                    <i className='iconfont icon-map'></i>
+                </div>
+            </Flex>
+        )
+    }
     render() {
         return (
             <div>
+                {/* 顶部导航start */}
+                {this.renderTopNav()}
                 {/* 轮播图start */}
                 < Carousel
                     autoplay={this.state.autoPlay}//自动播放
