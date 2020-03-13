@@ -68,7 +68,6 @@ class Home extends Component {
                     </TabBar>
                 </div>
 
-
             </div>
         );
     }

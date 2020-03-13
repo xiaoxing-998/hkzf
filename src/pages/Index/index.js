@@ -19,7 +19,7 @@ class Index extends Component {
         imgHeight: 212,
         // 调接口 数据未返回时 自动播放失效
         autoPlay: false,
-        // 宫格数据
+        // 租房小组宫格数据
         grid: [],
         // 资讯数据
         news: []
@@ -27,46 +27,63 @@ class Index extends Component {
     }
     //  创建时   组件挂载 完成DOM渲染后 用于发送网络请求以及Dom操作
     componentDidMount() {
-        this.getSwiper();
-        this.getGroups();
-        this.getNews();
+        this.getAllResult()
+        // this.getSwiper();
+        // this.getGroups();
+        // this.getNews();
     }
 
-    // 获取轮播图数据
-    getSwiper = async () => {
-        const { data, status } = await getSwiper();
-        if (status === 200) {
-            // setState()是异步
+    // Promise.all()接受一个由promise任务组成的数组  （可循环对象），可以同时处理多个promise任务，
+    // 当所有的任务都执行完成时，Promise.all()返回resolve (返回一个 Promise 实例)，但当有一个失败(reject)，则返回失败的信息
+    // 统一处理所有接口调用的方法
+    getAllResult = async () => {
+        const res = await Promise.all([getSwiper(), getGroups(), getNews({ area: 'AREA|88cff55c-aaa4-e2e0' })])
+        res[0].status === 200 && this.setState({
+            swiper: res[0].data,
+            grid: res[1].data,
+            news: res[2].data
+        }, () => {
             this.setState({
-                swiper: data,
-            }, () => {
-                //第二个回调中  拿到数据后 设置自动播放
-                this.setState({
-                    autoPlay: true
-                })
+                autoPlay: true
             })
-        }
+        })
     }
+
+    // // 获取轮播图数据
+    // getSwiper = async () => {
+    //     const { data, status } = await getSwiper();
+    //     if (status === 200) {
+    //         // setState()是异步
+    //         this.setState({
+    //             swiper: data,
+    //         }, () => {
+    //             //第二个回调中  拿到数据后 设置自动播放
+    //             this.setState({
+    //                 autoPlay: true
+    //             })
+    //         })
+    //     }
+    // }
 
     // 获取租房小组数据
-    getGroups = async () => {
-        const { status, data } = await getGroups();
-        if (status === 200) {
-            this.setState({
-                grid: data
-            })
-        }
-    }
+    // getGroups = async () => {
+    //     const { status, data } = await getGroups();
+    //     if (status === 200) {
+    //         this.setState({
+    //             grid: data
+    //         })
+    //     }
+    // }
 
-    // 获取最新资讯数据
-    getNews = async () => {
-        const { status, data } = await getNews({ area: 'AREA|88cff55c-aaa4-e2e0' });
-        status === 200 && this.setState
-            // if简写
-            ({
-                news: data
-            })
-    }
+    // // 获取最新资讯数据
+    // getNews = async () => {
+    //     const { status, data } = await getNews({ area: 'AREA|88cff55c-aaa4-e2e0' });
+    //     status === 200 && this.setState
+    //         // if简写
+    //         ({
+    //             news: data
+    //         })
+    // }
 
     // 渲染轮播图
     renderSwiper = () => {
@@ -163,30 +180,30 @@ class Index extends Component {
         return (
             <div>
                 {/* 轮播图start */}
-                <Carousel
+                < Carousel
                     autoplay={this.state.autoPlay}//自动播放
                     infinite//循环播放
                 >
                     {/* 数据渲染 */}
                     {this.renderSwiper()}
-                </Carousel>
+                </Carousel >
                 {/* 栏目导航start */}
-                <Flex className='nav'>
+                < Flex className='nav' >
                     {this.renderNavs()}
-                </Flex>
+                </Flex >
                 {/* 租房小组start */}
-                <div className="group">
+                < div className="group" >
                     {this.renderGroups()}
-                </div>
+                </div >
                 {/* 最新资讯start */}
-                <div className="news">
+                < div className="news" >
                     <h3 className="group-title">最新资讯</h3>
                     <WingBlank size='md'>
                         {this.renderNews()}
                     </WingBlank>
 
-                </div>
-            </div>
+                </div >
+            </div >
         );
     }
 }
